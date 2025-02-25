@@ -39,7 +39,7 @@ ament_target_dependencies(pub_odom
 install(TARGETS pub_odom
   DESTINATION lib/${PROJECT_NAME})
 
-install(DIRECTORY config launch maps urdf megarover_sim worlds meshes
+install(DIRECTORY config launch maps megarover_sim worlds
   DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)

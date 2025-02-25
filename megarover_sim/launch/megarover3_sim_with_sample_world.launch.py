@@ -30,7 +30,6 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
     use_ros2_control = LaunchConfiguration('use_ros2_control')
     gui = LaunchConfiguration('gui')
-    gazebo_simulator = LaunchConfiguration('gazebo')
     world_fname = LaunchConfiguration('world_fname')
 
     launch_file_dir = PathJoinSubstitution([FindPackageShare('megarover_sim'), 'launch'])
@@ -49,17 +48,8 @@ def generate_launch_description():
         condition=LaunchConfigurationEquals("gazebo", "gz")
     )
     # setup robot_description
-    robot_description_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([launch_file_dir, 'utils', 'robot_description.launch.py'])
-        ),
-        launch_arguments={
-            'use_sim_time': use_sim_time,
-            'use_ros2_control': use_ros2_control,
-            'gazebo': gazebo_simulator
-        }.items()
-    )
-    # setup ros2_control
+    # これはros2 launch megarover_description mega3_view.launch.pyで補う。
+
     ros2_control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([launch_file_dir, 'utils', 'ros2_control.launch.py'])
@@ -75,7 +65,5 @@ def generate_launch_description():
         declare_world_fname,
 
         gazebo_launch,
-
-        robot_description_launch,
         ros2_control_launch
     ])
