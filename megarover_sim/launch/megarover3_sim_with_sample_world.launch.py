@@ -6,6 +6,7 @@ from launch.conditions import IfCondition, LaunchConfigurationEquals
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess
 
 def generate_launch_description():
     declare_use_sim_time = DeclareLaunchArgument(
@@ -50,6 +51,12 @@ def generate_launch_description():
     # setup robot_description
     # これはros2 launch megarover_description mega3_view.launch.pyで補う。
 
+  # Set Gazebo model path to find megarover meshes
+    gz_resource_path = ExecuteProcess(
+        cmd=['bash', '-c', 'echo "export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:$(ros2 pkg prefix megarover_description)/share" >> ~/.bashrc && source ~/.bashrc'],
+        output='screen'
+    )
+
     ros2_control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([launch_file_dir, 'utils', 'ros2_control.launch.py'])
@@ -63,7 +70,7 @@ def generate_launch_description():
         declare_gui,
         declare_gazebo,
         declare_world_fname,
-
+        gz_resource_path,
         gazebo_launch,
         ros2_control_launch
     ])
