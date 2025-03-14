@@ -2,17 +2,40 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>megarover_sim</name>
-  <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="i2lab@todo.todo">i2lab</maintainer>
-  <license>TODO: License declaration</license>
+  <version>0.0.2</version>
+  <description>megarover3をGazeboで動かすシミュレーションパッケージ</description>
+  <maintainer email="takuchanapp@gmail.com">Takuchan</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>sensor_msgs</depend>
+  
+  <depend>diff_drive_controller</depend>
+  <depend>gz_ros2_control</depend>
+  <depend>joint_state_broadcaster</depend>
+  <depend>joint_state_publisher</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>ros_gz</depend>
+  <depend>ros2_control</depend>
+  <depend>ros2_controllers</depend>
+  <depend>topic_tools</depend>
+  <depend>xacro</depend>
+
+  
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>
   <test_depend>python3-pytest</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
   <export>
-    <build_type>ament_python</build_type>
+    <build_type>ament_cmake</build_type>
+    <gazebo_ros gazebo_plugin_path="${prefix}/lib"/>
+    <gazebo_ros gazebo_model_path="${prefix}/models"/>
+    <launch>
+      <launch_file>launch/megarover3_sim_with_sample_world.launch.py</launch_file>
+    </launch>
   </export>
 </package>
