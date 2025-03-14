@@ -38,6 +38,9 @@ def generate_launch_description():
     use_ros2_control = LaunchConfiguration('use_ros2_control')
     gui = LaunchConfiguration('gui')
     world_fname = LaunchConfiguration('world_fname')
+    gazebo_simulator = LaunchConfiguration('gazebo')
+
+
 
     # パッケージ内のlaunchディレクトリのパス
     launch_file_dir = PathJoinSubstitution([FindPackageShare('megarover_sim'), 'launch'])
@@ -77,6 +80,7 @@ def generate_launch_description():
     )
 
 
+
     # メガローバーを召喚
     description_package_path = get_package_share_path('megarover_description')
     default_model_path = description_package_path / 'urdf/mega3.xacro'
@@ -96,6 +100,15 @@ def generate_launch_description():
                                        value_type=str)
 
     use_sim_time = LaunchConfiguration('use_sim_time')
+
+
+
+    print("あほぼけかす",default_model_path)
+    robot_description_content = Command(
+        ['xacro', ' ', str(default_model_path), ' ',
+        'use_ros2_control:=', use_ros2_control, ' ',
+        'gazebo:=', gazebo_simulator])
+
 
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
@@ -147,5 +160,6 @@ def generate_launch_description():
         joint_state_publisher_node,
         joint_state_publisher_gui_node,
         robot_state_publisher_node,
+        robot_description_content
         # rviz_node
     ])
